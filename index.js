@@ -52,6 +52,13 @@ async function run() {
         const blogCollection = client.db("jobPortal").collection('blogs');
 
 
+        app.post('/jobs', async (req, res) => {
+            const products = req.body;
+            const result = await jobCollection.insertOne(products);
+            res.send(result);
+
+        })
+
         // jobs api
         app.get('/jobs', async (req, res) => {
             const result = await jobCollection.find().toArray();
