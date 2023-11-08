@@ -86,6 +86,16 @@ async function run() {
             res.send(result);
         })
 
+        // my job
+        app.get('/myjobs', async (req, res) => {
+            let query = {};
+            if (req.query?.email) {
+                query = { postEmail: req.query?.email }
+            }
+            const result = await jobCollection.find(query).toArray();
+            res.send(result);
+        });
+
         // applied job
         app.post('/applied', async (req, res) => {
             const applied = req.body;
@@ -99,6 +109,15 @@ async function run() {
             const result = await appliedCollection.find().toArray();
             res.send(result);
         })
+
+        app.get('/appliedjob', async (req, res) => {
+            let query = {};
+            if (req.query?.email) {
+                query = { candidateEamil: req.query?.email }
+            }
+            const result = await appliedCollection.find(query).toArray();
+            res.send(result);
+        });
 
         // update applide number
         app.put('/jobs/:id', async (req, res) => {
