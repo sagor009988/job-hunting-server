@@ -110,6 +110,7 @@ async function run() {
             res.send(result);
         })
 
+        // applied job user email base
         app.get('/appliedjob', async (req, res) => {
             let query = {};
             if (req.query?.email) {
