@@ -97,7 +97,7 @@ async function run() {
         });
 
         // applied job
-        app.post('/applied', async (req, res) => {
+        app.post('/appliedjob', async (req, res) => {
             const applied = req.body;
             const result = await appliedCollection.insertOne(applied);
             res.send(result);
@@ -119,6 +119,31 @@ async function run() {
             res.send(result);
         });
 
+        // // update applide number
+        app.put('/count/:id', async (req, res) => {
+            const id = req.params.id;
+            const data = req.body; // You should get the count from the request body
+            const options = { upsert: true };
+            const filter = { _id: new ObjectId(id) };
+            const update = {
+                $set: {
+                    applied: data.newCount // Update the applied count with the provided value
+                }
+            };
+            const result = await jobCollection.updateOne(filter, update, options);
+            res.send(result);
+        });
+
+
+        // delete booking
+        app.delete('/jobsDelete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = jobCollection.deleteOne(query);
+            res.send(result);
+        })
+
+
         // update applide number
         app.put('/jobs/:id', async (req, res) => {
             const id = req.params.id;
@@ -127,7 +152,17 @@ async function run() {
             const filter = { _id: new ObjectId(id) };
             const update = {
                 $set: {
-                    applied: data.newCount // Update the applied count with the provided value
+                    jobTitle: data?.jobTitle,
+                    category: data?.category,
+                    postbanner: data?.postbanner,
+                    salary: data?.salary,
+                    description: data?.description,
+                    gender: data?.gender,
+                    responsibilities: data?.responsibilities,
+                    expirationDate: data?.newExpirationDate,
+                    eduRequirements: data?.eduRequirements,
+                    statement: data?.statement,
+                    location: data?.location
                 }
             };
             const result = await jobCollection.updateOne(filter, update, options);
