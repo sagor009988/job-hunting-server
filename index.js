@@ -87,7 +87,7 @@ async function run() {
         })
 
         // my job
-        app.get('/myjobs', async (req, res) => {
+        app.get('/myjobs', verify, async (req, res) => {
             let query = {};
             if (req.query?.email) {
                 query = { postEmail: req.query?.email }
@@ -111,7 +111,7 @@ async function run() {
         })
 
         // applied job user email base
-        app.get('/appliedjob', async (req, res) => {
+        app.get('/appliedjob', verify, async (req, res) => {
             let query = {};
             if (req.query?.email) {
                 query = { candidateEamil: req.query?.email }
@@ -148,7 +148,7 @@ async function run() {
         // update applide number
         app.put('/jobs/:id', async (req, res) => {
             const id = req.params.id;
-            const data = req.body; // You should get the count from the request body
+            const data = req.body;
             const options = { upsert: true };
             const filter = { _id: new ObjectId(id) };
             const update = {
