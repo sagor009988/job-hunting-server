@@ -98,7 +98,7 @@ async function run() {
         });
 
         // applied job
-        app.post('/applied', verify, async (req, res) => {
+        app.post('/newapplied', verify, async (req, res) => {
             const applied = req.body;
             const result = await appliedCollection.insertOne(applied);
             res.send(result);
