@@ -8,9 +8,10 @@ const port = process.env.PORT || 5000;
 
 // midlewares
 app.use(cors({
-    origin: ['https://cheery-chebakia-29ff98.netlify.app', 'http://localhost:5173'],
+    origin: ['https://admirable-belekoy-a7b177.netlify.app', 'http://localhost:5173'],
     credentials: true
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -97,7 +98,7 @@ async function run() {
         });
 
         // applied job
-        app.post('/appliedjob', async (req, res) => {
+        app.post('/appliedjob', verify, async (req, res) => {
             const applied = req.body;
             const result = await appliedCollection.insertOne(applied);
             res.send(result);
@@ -170,6 +171,18 @@ async function run() {
             res.send(result);
         });
 
+        // jobs api
+        app.get('/blogs', async (req, res) => {
+            const result = await blogCollection.find().toArray();
+            res.send(result);
+        })
+
+        app.get('/blogs/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await blogCollection.findOne(query);
+            res.send(result);
+        })
 
         // jwt related api
         app.post('/jwt', async (req, res) => {
@@ -180,11 +193,13 @@ async function run() {
             expirationDate.setDate(expirationDate.getDate() + 7);
             res.cookie('token', token, {
                 httpOnly: true,
-                secure: true,
-                expires: expirationDate,
-            }).send({ msg: 'succeed' });
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
 
+            }).send({ msg: 'succeed' });
         })
+
+
 
         // delete cookie
         app.post('/logout', async (req, res) => {
