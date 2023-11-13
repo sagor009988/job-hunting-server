@@ -97,18 +97,14 @@ async function run() {
             res.send(result);
         });
 
+        // applied related api........................................
+
         // applied job
-        app.post('/newapplied', verify, async (req, res) => {
+        app.post('/newapplied', async (req, res) => {
             const applied = req.body;
             const result = await appliedCollection.insertOne(applied);
             res.send(result);
 
-        })
-
-        // applied
-        app.get('/applied', async (req, res) => {
-            const result = await appliedCollection.find().toArray();
-            res.send(result);
         })
 
         // applied job user email base
@@ -124,12 +120,12 @@ async function run() {
         // // update applide number
         app.put('/count/:id', async (req, res) => {
             const id = req.params.id;
-            const data = req.body; // You should get the count from the request body
+            const data = req.body;
             const options = { upsert: true };
             const filter = { _id: new ObjectId(id) };
             const update = {
                 $set: {
-                    applied: data.newCount // Update the applied count with the provided value
+                    applied: data.newCount
                 }
             };
             const result = await jobCollection.updateOne(filter, update, options);
