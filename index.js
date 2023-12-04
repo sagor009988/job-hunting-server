@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 
 // midlewares
 app.use(cors({
-    origin: ['https://admirable-belekoy-a7b177.netlify.app', 'http://localhost:5173'],
+    origin: ['https://job-seeking-web.web.app', 'http://localhost:5173'],
     credentials: true
 }));
 
