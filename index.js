@@ -32,7 +32,7 @@ const verify = async (req, res, next) => {
     })
     next();
 }
-console.log('test');
+
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dejlh8b.mongodb.net/?retryWrites=true&w=majority`;
 
